@@ -7,10 +7,24 @@ terraform {
       version = "~> 4.0"
     }
   }
+
+  ## out-comment below backend block in bootstrap/first run, then do 'tf init'
+  ## uncomment below backend block in test run, then do 'tf init'
+  ## uncomment below backend block in cleanup/last run, then do 'tf init -migrate-state' and 'tf destroy'
+  #backend "s3" {
+  #  # S3: replace this with your bucket name!
+  #  bucket = "clong-tua-state"
+  #  key    = "global/s3/terraform.tfstate"
+  #  region = "us-east-2"
+  #  # DDB: replace this with your DynamoDB table name!
+  #  dynamodb_table = "clong-tua-locks"
+  #  encrypt        = true
+  #}
 }
 
 provider "aws" {
-  region = "us-east-2"
+  profile = "default"
+  region  = "us-east-2"
 }
 
 resource "aws_s3_bucket" "terraform_state" {
