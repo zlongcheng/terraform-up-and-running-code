@@ -10,15 +10,16 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region  = "us-east-1"
+  profile = "terraform"
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-0fb653ca2d3203ac1"
+resource "aws_instance" "lcheng-example" {
+  ami           = "ami-0e58b56aa4d64231b"
   instance_type = "t2.micro"
+  subnet_id     = "subnet-0c5b9372ce86ad921"
 
   tags = {
     Name = "terraform-example"
   }
 }
-

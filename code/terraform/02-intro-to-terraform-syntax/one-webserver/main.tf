@@ -10,12 +10,14 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region  = "us-east-1"
+  profile = "terraform"
 }
 
-resource "aws_instance" "example" {
-  ami                    = "ami-0fb653ca2d3203ac1"
+resource "aws_instance" "tf_example" {
+  ami                    = "ami-02457590d33d576c3"
   instance_type          = "t2.micro"
+  subnet_id              = "subnet-0c5b9372ce86ad921"
   vpc_security_group_ids = [aws_security_group.instance.id]
 
   user_data = <<-EOF
@@ -33,7 +35,8 @@ resource "aws_instance" "example" {
 
 resource "aws_security_group" "instance" {
 
-  name = var.security_group_name
+  name   = var.security_group_name
+  vpc_id = "vpc-0729b7af97c77422d"
 
   ingress {
     from_port   = 8080
@@ -50,6 +53,6 @@ variable "security_group_name" {
 }
 
 output "public_ip" {
-  value       = aws_instance.example.public_ip
+  value       = aws_instance.tf_example.public_ip
   description = "The public IP of the Instance"
 }
